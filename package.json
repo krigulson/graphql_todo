@@ -17,6 +17,7 @@
     "@nuxtjs/proxy": "^2.1.0",
     "core-js": "^3.9.1",
     "graphql-tag": "^2.12.4",
+    "moment": "^2.29.1",
     "nuxt": "^2.15.3"
   },
   "devDependencies": {

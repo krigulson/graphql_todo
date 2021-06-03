@@ -1,123 +1,31 @@
 <template>
-  <div class="container">
-    <div class="rounded-md bg-gray-100 px-4 py-4 m-2 overflow-hidden w-3/5">
-      <h1
-        class="
-          px-3
-          py-2
-          mx-3
-          mb-2
-          font-bold
-          text-gray-800
-          bg-gray-200
-          rounded-md
-        "
-      >
-        Todos
-      </h1>
-      <div v-for="todo in todos.todos" :key="todo.id">
-        <div
-          class="
-            flex
-            items-center
-            px-3
-            py-2
-            text-gray-700
-            border-gray-300
-            cursor-pointer
-            hover:bg-gray-200
-            hover:text-gray-900
-          "
-        >
-          <h1 class="flex-1 font-mono text-sm">
-            {{ todo.description }}
-          </h1>
-          <span
-            class="
-              px-2
-              py-1
-              text-xs
-              font-bold
-              text-white
-              uppercase
-              bg-gray-400
-              rounded-md
-              hover:bg-primary
-            ">{{ todo.dueDate }}</span>
-          <span
-            class="
-              px-2
-              py-1
-              ml-2
-              text-xs
-              font-bold
-              text-white
-              uppercase
-              bg-gray-400
-              rounded-md
-              hover:bg-primary
-            ">{{ todo.completed }}</span>
+  <div class="container max-w-3xl mx-auto">
+    <ul>
+      <li v-for="todo in todos.todos" :key="todo.id" class="list-item bg-white">
+        {{ todo.description }}
+        <div>
+          <span class="list-item-label">{{ todo.dueDate }}</span>
+          <span class="list-item-label">{{ todo.completed }}</span>
         </div>
-      </div>
-      <form @submit.prevent="addTodo">
-        <input
-          v-model="description"
-          type="text"
-          class="
-            my-2
-            mx-2
-            rounded-md
-            bg-white
-            border-transparent
-            focus:border-gray-500
-            focus:bg-white
-            focus:ring-0
-          "
-          placeholder="Todo description"
-        >
-        <input
-          v-model="dueDate"
-          type="text"
-          class="
-            my-2
-            mx-2
-            rounded-md
-            bg-white
-            border-transparent
-            focus:border-gray-500
-            focus:bg-white
-            focus:ring-0
-          "
-          placeholder="Due date"
-        >
-        <button
-          class="
-            py-2
-            px-4
-            font-semibold
-            rounded-lg
-            shadow-md
-            text-white
-            bg-green-500
-            hover:bg-green-700
-          "
-        >
-          Add todo
-        </button>
-      </form>
-    </div>
+      </li>
+    </ul>
+    <form @submit.prevent="addTodo">
+      <input v-model="description" type="text" class="list-item w-full bg-white focus:outline-none" placeholder="Todo description">
+      <!-- <input v-model="dueDate" type="text" class="form-control" placeholder="Due date"> -->
+    </form>
   </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import moment from 'moment'
 import { CREATE_NEW_TODO_MUTATION } from '../constants/graphql'
 
 export default {
   data () {
     return {
       description: '',
-      dueDate: ''
+      dueDate: moment().format('DD-MM-YYYY')
     }
   },
 
@@ -146,7 +54,6 @@ export default {
           dueDate
         }
       }).then((data) => {
-        console.log(data)
         event.target.reset()
       })
     }
@@ -154,7 +61,31 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-input {
-  padding: 0.5rem 0.75rem;
-}
+
+  .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 2em;
+    margin: 1em 0;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+  }
+  .list-item-label {
+    @apply px-2;
+    @apply py-1;
+    @apply text-xs;
+    @apply font-bold;
+    @apply text-white;
+    @apply uppercase;
+    @apply bg-gray-400;
+    @apply rounded-md;
+  }
+
+  .form-control {
+    @apply mx-2;
+    @apply rounded-md;
+    @apply bg-white;
+    @apply border-transparent;
+  }
 </style>
