@@ -1,47 +1,51 @@
 <template>
-  <div class="container max-w-3xl mx-auto">
-    <ul>
-      <li v-for="todo in todos.todos" :key="todo.id" class="list-item bg-white">
-        {{ todo.description }}
-        <div>
-          <span class="list-item-label">{{ todo.dueDate }}</span>
-          <span class="list-item-label">{{ todo.completed }}</span>
-        </div>
-      </li>
-    </ul>
-    <form @submit.prevent="addTodo">
-      <input v-model="description" type="text" class="list-item w-full bg-white focus:outline-none" placeholder="Todo description">
-      <!-- <input v-model="dueDate" type="text" class="form-control" placeholder="Due date"> -->
-    </form>
+  <div>
+    <div class="container max-w-3xl mx-auto">
+      <div v-if="$apollo.queries.todos.loading">
+        Loading...
+      </div>
+      <div v-if="error">
+        {{ error }}
+      </div>
+      <ul>
+        <li v-for="todo in todos.todos" :id="todo.id" :key="todo.id" class="list-item bg-white">
+          {{ todo.description }}
+          <div>
+            <span class="list-item-label">{{ todo.dueDate }}</span>
+            <span class="list-item-label">{{ todo.completed }}</span>
+            <button :id="todo.id" type="button" class="cursor-pointer px-2 py-1 text-xs font-bold text-white uppercase rounded-md bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-200" @click="removeTodo(todo)">
+              Remove
+            </button>
+          </div>
+        </li>
+      </ul>
+      <form @submit.prevent="addTodo">
+        <input v-model="description" type="text" class="list-item w-full bg-white focus:outline-none" placeholder="Todo description">
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
 import moment from 'moment'
-import { CREATE_NEW_TODO_MUTATION } from '../constants/graphql'
+import { CREATE_NEW_TODO_MUTATION, GET_ALL_TODOS, DELETE_TODO } from '../constants/graphql'
 
 export default {
   data () {
     return {
       description: '',
-      dueDate: moment().format('DD-MM-YYYY')
+      dueDate: moment().format('DD-MM-YYYY'),
+      error: null
     }
   },
 
   apollo: {
-    todos: gql`
-      query getTodos {
-        todos {
-          todos {
-            id
-            description
-            completed
-            dueDate
-          }
-        }
+    todos: {
+      query: GET_ALL_TODOS,
+      error (error) {
+        this.error = JSON.stringify(error.message)
       }
-    `
+    }
   },
 
   methods: {
@@ -53,8 +57,16 @@ export default {
           description,
           dueDate
         }
-      }).then((data) => {
-        event.target.reset()
+      })
+      this.description = ''
+    },
+
+    removeTodo (todo) {
+      this.$apollo.mutate({
+        mutation: DELETE_TODO,
+        variables: {
+          todoId: todo.id
+        }
       })
     }
   }
@@ -78,8 +90,8 @@ export default {
     @apply font-bold;
     @apply text-white;
     @apply uppercase;
-    @apply bg-gray-400;
     @apply rounded-md;
+    @apply bg-purple-700;
   }
 
   .form-control {
@@ -88,4 +100,5 @@ export default {
     @apply bg-white;
     @apply border-transparent;
   }
+
 </style>
