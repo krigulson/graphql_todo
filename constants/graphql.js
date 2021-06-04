@@ -59,3 +59,17 @@ export const DELETE_TODO = gql`
     }
   }
 `
+
+export const MARK_AS_DONE = gql`
+  mutation MarkAsDone($todoId: String!) {
+    markDone(todoId: $todoId) {
+      success
+      errors
+      todo {
+        id
+        description
+        dueDate
+      }
+    }
+  }
+`
