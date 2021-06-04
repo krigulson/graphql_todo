@@ -31,6 +31,9 @@
           </div>
           <div>
             <span class="list-item-label">{{ todo.dueDate }}</span>
+            <button type="button" class="cursor-pointer px-2 py-1 text-xs font-bold text-white uppercase rounded-md bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-blue-200">
+              Get info
+            </button>
             <button :id="todo.id" type="button" class="cursor-pointer px-2 py-1 text-xs font-bold text-white uppercase rounded-md bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-200" @click="removeTodo(todo)">
               Remove
             </button>

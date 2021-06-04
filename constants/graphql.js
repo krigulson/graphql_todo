@@ -15,8 +15,8 @@ export const CREATE_NEW_TODO_MUTATION = gql`
 `
 
 export const GET_TODO = gql`
-  query getTodo($id: ID!) {
-    todo(todoId: $id) {
+  query getTodo($todoId: ID!) {
+    todo(todoId: $todoId) {
       todo {
         completed
         description
