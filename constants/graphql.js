@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 export const CREATE_NEW_TODO_MUTATION = gql`
   mutation CreateNewTodo($description: String!, $dueDate: String!) {
@@ -12,7 +12,7 @@ export const CREATE_NEW_TODO_MUTATION = gql`
       errors
     }
   }
-`
+`;
 
 export const GET_TODO = gql`
   query getTodo($todoId: ID!) {
@@ -24,7 +24,7 @@ export const GET_TODO = gql`
       }
     }
   }
-`
+`;
 
 export const GET_ALL_TODOS = gql`
   query getTodos {
@@ -37,7 +37,7 @@ export const GET_ALL_TODOS = gql`
       }
     }
   }
-`
+`;
 
 export const UPDATE_DUE = gql`
   mutation UpdateTodoDue($todoId: String, $newDate: String!) {
@@ -49,7 +49,7 @@ export const UPDATE_DUE = gql`
       errors
     }
   }
-`
+`;
 
 export const DELETE_TODO = gql`
   mutation deleteTodo($todoId: ID!) {
@@ -58,7 +58,7 @@ export const DELETE_TODO = gql`
       errors
     }
   }
-`
+`;
 
 export const MARK_AS_DONE = gql`
   mutation MarkAsDone($todoId: String!) {
@@ -72,4 +72,4 @@ export const MARK_AS_DONE = gql`
       }
     }
   }
-`
+`;

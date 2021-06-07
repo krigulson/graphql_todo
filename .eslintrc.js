@@ -7,15 +7,20 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
   },
-  extends: [
-    '@nuxtjs',
-    // 'plugin:prettier/recommended',
-    'plugin:nuxt/recommended',
-  ],
-  // plugins: ['prettier'],
+  extends: ['airbnb-base', 'plugin:vue/base'],
+  plugins: [],
   // add your custom rules here
-  rules: {},
+  rules: {
+    'no-param-reassign': [
+      'error',
+      { props: true, ignorePropertyModificationsFor: ['state'] },
+    ],
+    'no-shadow': ['error', { allow: ['state'] }],
+    'import/extensions': 'off',
+    'import/no-unresolved': [0, { caseSensitive: false }],
+    'max-len': ['error', { code: 500 }],
+  },
   settings: {
     'import/core-modules': ['vue', 'vuex', 'axios'],
   },
-}
+};
